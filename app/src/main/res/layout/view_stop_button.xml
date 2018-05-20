@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/bg_bar"
+        android:layout_width="@dimen/run_stop_button_size"
+        android:layout_height="@dimen/run_stop_button_size"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_progress_pie_background"/>
+
+    <com.time.cat.demo.ProgressPie
+        android:id="@+id/pie_progress"
+        android:layout_width="@dimen/run_stop_button_size"
+        android:layout_height="@dimen/run_stop_button_size"
+        android:layout_centerInParent="true"/>
+
+    <RelativeLayout
+        android:id="@+id/layout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <View
+            android:id="@+id/view_border"
+            android:layout_width="@dimen/run_stop_button_layout_normal_size"
+            android:layout_height="@dimen/run_stop_button_layout_normal_size"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_progress_pie_border"
+            android:visibility="invisible"/>
+
+        <View
+            android:layout_width="@dimen/run_stop_button_size"
+            android:layout_height="@dimen/run_stop_button_size"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_run_stop"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/button_stop_click_area"
+        android:layout_width="@dimen/run_stop_button_click_area_size"
+        android:layout_height="@dimen/run_stop_button_click_area_size"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/stop_run"
+        android:textColor="@color/run_stop_text"
+        android:textSize="@dimen/button_text_size"/>
+</RelativeLayout>

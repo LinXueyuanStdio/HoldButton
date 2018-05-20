@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">StopButton</string>
+    <string name="stop_run">结束</string>
+</resources>
