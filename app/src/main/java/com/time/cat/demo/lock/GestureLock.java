@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.time.cat.demo.R;
-import com.time.cat.demo.button.StopButton;
+import com.time.cat.demo.button.BurstLinkButton;
 import com.time.cat.demo.util.DelayRunnableUtils;
 
 public class GestureLock extends ViewGroup {
@@ -45,6 +45,8 @@ public class GestureLock extends ViewGroup {
 
     private int mContentSize;
     private int mHalfContentSize;
+    private int childSize;
+    private LayoutParams childLayoutParams;
 
     private Paint paint;
 
@@ -115,6 +117,7 @@ public class GestureLock extends ViewGroup {
 
         touchable = true;
         forceClear = false;
+        childLayoutParams = new LayoutParams(childSize, childSize);
 
         delayRunnableUtils = new DelayRunnableUtils(new Runnable() {
             @Override
@@ -146,7 +149,7 @@ public class GestureLock extends ViewGroup {
             GestureLockView child = mAdapter.getGestureLockViewInstance(getContext(), i);
             child.setLockerState(GestureLockView.LockerState.LOCKER_STATE_NORMAL);
             child.setId(i + 1);
-            child.setOnActionListener(new StopButton.ActionListener() {
+            child.setOnActionListener(new BurstLinkButton.ActionListener() {
                 @Override
                 public void onActionDown() {
 
@@ -154,14 +157,12 @@ public class GestureLock extends ViewGroup {
 
                 @Override
                 public void onActionUp() {
-                    forceClear = true;
                     Log.e("GestureLock", "onActionUp");
                 }
 
                 @Override
-                public void onEnd() {
-                    forceClear = true;
-                    Log.e("GestureLock", "onEnd");
+                public void onGiveUpEnd() {
+                    Log.e("GestureLock", "onGiveUpEnd");
                 }
 
                 @Override
@@ -314,7 +315,11 @@ public class GestureLock extends ViewGroup {
         for (int i = 0; i < childCount; i++) {
 
             View child = getChildAt(i);
-
+            if (childLayoutParams != null && childSize > 0) {
+                childLayoutParams.height = childSize;
+                childLayoutParams.width = childSize;
+                child.setLayoutParams(childLayoutParams);
+            }
             child.layout(xStep, yStep, xStep + childSize, yStep + childSize);
 
             if (i % depth == depth - 1) {
@@ -397,6 +402,9 @@ public class GestureLock extends ViewGroup {
                 View child = findViewById(cId + 1);
                 if (cId != childId) {
                     childId = cId;
+                    if (holdingView instanceof GestureLockView) {
+                        ((GestureLockView) holdingView).onActionUp();
+                    }
                     holdingView = child;
                     delayRunnableUtils.start();
                 }
@@ -427,8 +435,9 @@ public class GestureLock extends ViewGroup {
                         lastPathX = checkedX;
                         lastPathY = checkedY;
 
-                        if (onGestureEventListener != null)
+                        if (onGestureEventListener != null) {
                             onGestureEventListener.onBlockSelected(cId);
+                        }
                     }
                 }
 

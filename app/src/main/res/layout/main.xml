@@ -9,13 +9,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.time.cat.demo.button.StopButton
+        <com.time.cat.demo.button.BurstLinkButton
             android:id="@+id/stopButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
-        </com.time.cat.demo.button.StopButton>
+        </com.time.cat.demo.button.BurstLinkButton>
     </LinearLayout>
 
     <com.time.cat.demo.lock.GestureLock
@@ -23,7 +23,9 @@
         android:id="@+id/gesture_lock"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        GestureLock:line_normal_color="@android:color/darker_gray"
-        GestureLock:line_width="2dp"/>
+        GestureLock:line_error_color="@android:color/holo_red_light"
+        GestureLock:line_normal_color="@android:color/holo_blue_light"
+        GestureLock:line_width="5dp"/>
 </LinearLayout>

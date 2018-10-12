@@ -5,12 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 
-import com.time.cat.demo.button.StopButton;
+import com.time.cat.demo.button.BurstLinkButton;
 
 /**
  * Abstract class for user to customize the GestureLock block style
  */
-public abstract class GestureLockView extends StopButton {
+public abstract class GestureLockView extends BurstLinkButton {
 
     private static final boolean DEBUG = false;
 

@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.time.cat.demo.button.StopButton;
+import com.time.cat.demo.button.BurstLinkButton;
 import com.time.cat.demo.lock.GestureLock;
 import com.time.cat.demo.lock.GestureLockView;
 import com.time.cat.demo.lock.MyStyleLockView;
@@ -27,8 +27,8 @@ public class MainActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        StopButton stopButton = findViewById(R.id.stopButton);
-        stopButton.setOnActionListener(new StopButton.ActionListener() {
+        BurstLinkButton burstLinkButton = findViewById(R.id.stopButton);
+        burstLinkButton.setOnActionListener(new BurstLinkButton.ActionListener() {
             @Override
             public void onActionDown() {
 
@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
             }
 
             @Override
-            public void onEnd() {
+            public void onGiveUpEnd() {
 
             }
 
@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
         gestureView.setAdapter(new GestureLock.GestureLockAdapter() {
             @Override
             public int getDepth() {
-                return 7;
+                return 3;
             }
 
             @Override

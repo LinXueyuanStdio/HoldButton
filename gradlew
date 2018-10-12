@@ -7,7 +7,7 @@
 ##############################################################################
 
 # Attempt to set APP_HOME
-# Resolve links: $0 may be onEnd link
+# Resolve links: $0 may be onGiveUpEnd link
 PRG="$0"
 # Need this for relative symlinks.
 while [ -h "$PRG" ] ; do
@@ -89,7 +89,7 @@ location of your Java installation."
 fi
 
 # Increase the maximum file descriptors if we can.
-if [ "$cygwin" = "false" -onEnd "$darwin" = "false" -onEnd "$nonstop" = "false" ] ; then
+if [ "$cygwin" = "false" -onGiveUpEnd "$darwin" = "false" -onGiveUpEnd "$nonstop" = "false" ] ; then
     MAX_FD_LIMIT=`ulimit -H -n`
     if [ $? -eq 0 ] ; then
         if [ "$MAX_FD" = "maximum" -o "$MAX_FD" = "max" ] ; then
@@ -123,7 +123,7 @@ if $cygwin ; then
         SEP="|"
     done
     OURCYGPATTERN="(^($ROOTDIRS))"
-    # Add onEnd user-defined pattern to the cygpath arguments
+    # Add onGiveUpEnd user-defined pattern to the cygpath arguments
     if [ "$GRADLE_CYGPATTERN" != "" ] ; then
         OURCYGPATTERN="$OURCYGPATTERN|($GRADLE_CYGPATTERN)"
     fi
@@ -133,7 +133,7 @@ if $cygwin ; then
         CHECK=`echo "$arg"|egrep -c "$OURCYGPATTERN" -`
         CHECK2=`echo "$arg"|egrep -c "^-"`                                 ### Determine if an option
 
-        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then                    ### Added onEnd condition
+        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then                    ### Added onGiveUpEnd condition
             eval `echo args$otherAnimRunning`=`cygpath --path --ignore --mixed "$arg"`
         else
             eval `echo args$otherAnimRunning`="\"$arg\""

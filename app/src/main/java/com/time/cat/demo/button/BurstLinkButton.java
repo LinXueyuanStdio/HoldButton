@@ -5,11 +5,10 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 
 import com.time.cat.demo.R;
 import com.time.cat.demo.util.DelayRunnableUtils;
-import com.time.cat.demo.util.ViewUtils;
 
 import java.util.ArrayList;
 
@@ -30,7 +28,7 @@ import java.util.ArrayList;
  * @discription 主button
  * @usage null
  */
-public class StopButton extends RelativeLayout implements ValueAnimator.AnimatorUpdateListener {
+public class BurstLinkButton extends RelativeLayout implements ValueAnimator.AnimatorUpdateListener {
 
     public static final float DEFAULT_MIN_SCALE = 1.0f;
 
@@ -43,36 +41,21 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
     private AnimatorSet centerScalaAnimSet;
     private ValueAnimator circleAnim;
     private ValueAnimator centerAnim;
-    private float curAngle;
-    private boolean otherAnimRunning;
-    private boolean onCenterAnimRunning;
-    private boolean onCenterScalaAnimRunning;
-    private boolean onActionUp;
-    private boolean animing;
-    private boolean onCircleAnimStart;
+    private float curAngle = 0.0f;
+    private boolean otherAnimRunning = false;
+    private boolean onCenterAnimRunning = false;
+    private boolean onCenterScalaAnimRunning = false;
+    private boolean onActionUp = false;
+    private boolean animRunning = false;
+    private boolean onCircleAnimStart = false;
+    float mTextSize;
     private DelayRunnableUtils delayRunnableUtils;
     ProgressPie progressPie;
     TextView textTitle;
 
-    private float mPercent;
-    /**
-     * the max length of X
-     */
-    private int mLength;
-
-    private float mMinRadius = 6;
-
-    private float mCenterX;
-
-    private float mCenterY;
-
     private Paint mPaint;
 
     private Paint mBackgroundPaint;
-
-    private RectF mLeftRectF = new RectF();
-
-    private RectF mRightRectF = new RectF();
 
     private int mBackgroundColor = Color.parseColor("#b4282d");
 
@@ -80,58 +63,64 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
 
     private int mDotColor = Color.WHITE;
 
-    @Override
-    public void onAnimationUpdate(ValueAnimator animation) {
-        mPercent = (float) animation.getAnimatedValue() / 100.f;
-        invalidate();
-    }
-
     public interface ActionListener {
+
         void onActionDown();
 
         void onActionUp();
 
-        void onEnd();
+        void onGiveUpEnd();
 
         void onClick();
 
         void onLongClick();
+
     }
 
     public void setOnActionListener(ActionListener actionListenerVar) {
         onActionListener = actionListenerVar;
     }
 
-    public StopButton(Context context) {
+    public BurstLinkButton(Context context) {
         this(context, null);
     }
 
-    public StopButton(Context context, AttributeSet attributeSet) {
+    public BurstLinkButton(Context context, AttributeSet attributeSet) {
         this(context, attributeSet, 0);
     }
 
-    public StopButton(Context context, AttributeSet attributeSet, int otherAnimRunning) {
-        super(context, attributeSet, otherAnimRunning);
-        circleAnimSet = new AnimatorSet();
-        resetAnimSet = new AnimatorSet();
-        centerScalaAnimSet = new AnimatorSet();
-        curAngle = 0.0f;
-        this.otherAnimRunning = false;
-        onCenterAnimRunning = false;
-        onCenterScalaAnimRunning = false;
-        onActionUp = false;
-        animing = false;
-        onCircleAnimStart = false;
-        init(context);
+    public BurstLinkButton(Context context, AttributeSet attributeSet, int defStyle) {
+        super(context, attributeSet, defStyle);
+        TypedArray ta = context.obtainStyledAttributes(attributeSet, R.styleable.BurstLinkButton);
+        mBackgroundColor = ta.getColor(R.styleable.BurstLinkButton_background_color, Color.parseColor("#b4282d"));
+        mShadowColor = ta.getColor(R.styleable.BurstLinkButton_shadow_color, Color.parseColor("#40000000"));
+        mDotColor = ta.getColor(R.styleable.BurstLinkButton_dot_color, Color.WHITE);
+        mTextSize = ta.getDimension(R.styleable.BurstLinkButton_text_size, context.getResources().getDimension(R.dimen.button_text_size));
+        ta.recycle();
+
+        initUtils();
+        initView(context);
+        initAnim(context);
+        initPaint();
     }
 
-    private void init(Context context) {
-        View root = LayoutInflater.from(context).inflate(R.layout.view_stop_button, this, true);
+    private void initUtils() {
+        delayRunnableUtils = new DelayRunnableUtils(new Runnable() {
+            @Override
+            public void run() {
+                reset();
+            }
+        }, 3000);
+    }
+
+    private void initView(Context context) {
+        View root = LayoutInflater.from(context).inflate(R.layout.view_burst_link_button, this, true);
         progressPie = root.findViewById(R.id.pie_progress);
         textTitle = root.findViewById(R.id.text_title);
         buttonLayout = root.findViewById(R.id.layout_button);
         borderView = root.findViewById(R.id.view_border);
         barBackground = root.findViewById(R.id.bg_bar);
+//        textTitle.setTextSize(mTextSize);
         root.findViewById(R.id.button_stop_click_area).setOnTouchListener(new OnTouchListener() {
             long curTime;
 
@@ -157,39 +146,14 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
                 }
             }
         });
-        delayRunnableUtils = new DelayRunnableUtils(new Runnable() {
-            @Override
-            public void run() {
-                reset();
-            }
-        }, 3000);
-        setupAnim(context);
-
-        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
-        mPaint.setColor(mDotColor);
-        mBackgroundPaint = new Paint();
-        mBackgroundPaint.setAntiAlias(true);
-        mBackgroundPaint.setDither(true);
-        mBackgroundPaint.setColor(mBackgroundColor);
-        mBackgroundPaint.setShadowLayer(15, 0, 0, mShadowColor);
     }
 
-    private void reset() {
-        onCenterScalaAnimRunning = false;
-        textTitle.setText("停止");
-        if (onActionListener != null) {
-            onActionListener.onEnd();
-        }
-        Log.e("GestureLock", "reset");
-
-    }
-
-    private void setupAnim(Context context) {
-        float progress_size = ViewUtils.getDimension(context, R.dimen.run_stop_button_progress_size) / ViewUtils.getDimension(context, R.dimen.run_stop_button_size);
-        float layout_shrink_size = ViewUtils.getDimension(context, R.dimen.run_stop_button_layout_shrink_size) / ViewUtils.getDimension(context, R.dimen.run_stop_button_layout_normal_size);
+    private void initAnim(Context context) {
+        circleAnimSet = new AnimatorSet();
+        resetAnimSet = new AnimatorSet();
+        centerScalaAnimSet = new AnimatorSet();
+        float progress_size = context.getResources().getDimension(R.dimen.run_stop_button_progress_size) / context.getResources().getDimension(R.dimen.run_stop_button_size);
+        float layout_shrink_size = context.getResources().getDimension(R.dimen.run_stop_button_layout_shrink_size) / context.getResources().getDimension(R.dimen.run_stop_button_layout_normal_size);
         AnimatorSet animatorSet = circleAnimSet;
         Animator[] animatorArr = new Animator[6];
         animatorArr[0] = ObjectAnimator.ofFloat(buttonLayout, View.SCALE_X.getName(), layout_shrink_size);
@@ -229,7 +193,7 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
                 if (floatValue >= 90.0f) {
                     onCircleAnimStart = false;
                     if (!(!onActionUp || resetAnimSet.isStarted() || centerScalaAnimSet.isStarted())) {
-                        cancelAndReset();
+                        giveUpAndReset();
                     }
                 }
                 setSweepAngle(floatValue);
@@ -350,7 +314,7 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
                             || circleAnimSet.isStarted()
                             || centerScalaAnimSet.isStarted()
                             || circleAnim.isStarted())) {
-                        onActionListener.onEnd();
+                        onActionListener.onGiveUpEnd();
                     }
                 }
                 delayRunnableUtils.start();
@@ -369,10 +333,23 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
         });
     }
 
+    private void initPaint() {
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
+        mPaint.setColor(mDotColor);
+        mBackgroundPaint = new Paint();
+        mBackgroundPaint.setAntiAlias(true);
+        mBackgroundPaint.setDither(true);
+        mBackgroundPaint.setColor(mBackgroundColor);
+        mBackgroundPaint.setShadowLayer(15, 0, 0, mShadowColor);
+    }
+
     public void onActionStart() {
         invalidate();
         if (circleAnimSet.isStarted() || onCircleAnimStart || centerScalaAnimSet.isStarted()) {
-            animing = true;
+            animRunning = true;
             return;
         }
         if (onActionListener != null) {
@@ -393,17 +370,22 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
         onActionUp = true;
         if (onCenterScalaAnimRunning) {
             onCenterScalaAnimRunning = false;
-        } else if (animing || circleAnimSet.isStarted() || onCircleAnimStart || centerScalaAnimSet.isStarted()) {
-            animing = false;
+        } else if (animRunning || circleAnimSet.isStarted() || onCircleAnimStart || centerScalaAnimSet.isStarted()) {
+            animRunning = false;
         } else {
-            cancelAndReset();
+            giveUpAndReset();
         }
     }
 
-    private void cancelAndReset() {
+    public void giveUpAndReset() {
         textTitle.setText("停止");
         centerAnim.setFloatValues(curAngle, 0.0f);
         resetAnimSet.start();
+    }
+
+    private void reset() {
+        onCenterScalaAnimRunning = false;
+        textTitle.setText("停止");
     }
 
     private void circleHolding() {
@@ -413,30 +395,20 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        mCenterX = getMeasuredWidth() / 2.f;
-        mCenterY = getMeasuredHeight() / 2.f;
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    @Override
     public void setBackgroundColor(int color) {
         mBackgroundColor = color;
         mBackgroundPaint.setColor(color);
         invalidate();
     }
 
+    @Override
+    public void onAnimationUpdate(ValueAnimator animation) {
+        invalidate();
+    }
+
     public void setSweepAngle(float f) {
         curAngle = f;
         progressPie.setSweepAngle(curAngle);
-    }
-
-    public void setRadius(float radius) {
-        mMinRadius = radius;
-    }
-
-    public void setLength(int length) {
-        mLength = length;
     }
 
     public void setDotColor(int color) {
