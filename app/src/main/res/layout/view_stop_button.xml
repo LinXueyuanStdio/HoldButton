@@ -10,7 +10,7 @@
         android:layout_centerInParent="true"
         android:background="@drawable/bg_progress_pie_background"/>
 
-    <com.time.cat.demo.ProgressPie
+    <com.time.cat.demo.button.ProgressPie
         android:id="@+id/pie_progress"
         android:layout_width="@dimen/run_stop_button_size"
         android:layout_height="@dimen/run_stop_button_size"

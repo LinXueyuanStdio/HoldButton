@@ -1,4 +1,4 @@
-package com.time.cat.demo;
+package com.time.cat.demo.button;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,6 +7,8 @@ import android.graphics.RectF;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.time.cat.demo.R;
 
 /**
  * @author dlink

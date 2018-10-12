@@ -1,4 +1,4 @@
-package com.time.cat.demo;
+package com.time.cat.demo.button;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -9,11 +9,16 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.time.cat.demo.R;
+import com.time.cat.demo.util.DelayRunnableUtils;
+import com.time.cat.demo.util.ViewUtils;
 
 import java.util.ArrayList;
 
@@ -134,7 +139,7 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
             public boolean onTouch(View v, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     curTime = System.currentTimeMillis();
-                    actionDown();
+                    onActionStart();
                     return true;
                 } else if (motionEvent.getAction() != MotionEvent.ACTION_UP) {
                     performClick();
@@ -175,11 +180,16 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
     private void reset() {
         onCenterScalaAnimRunning = false;
         textTitle.setText("停止");
+        if (onActionListener != null) {
+            onActionListener.onEnd();
+        }
+        Log.e("GestureLock", "reset");
+
     }
 
     private void setupAnim(Context context) {
         float progress_size = ViewUtils.getDimension(context, R.dimen.run_stop_button_progress_size) / ViewUtils.getDimension(context, R.dimen.run_stop_button_size);
-        float layout_shrink_size = ViewUtils.getDimension(context, R.dimen.run_stop_button_layout_shrink_size) / ViewUtils.getDimension(context, (int) R.dimen.run_stop_button_layout_normal_size);
+        float layout_shrink_size = ViewUtils.getDimension(context, R.dimen.run_stop_button_layout_shrink_size) / ViewUtils.getDimension(context, R.dimen.run_stop_button_layout_normal_size);
         AnimatorSet animatorSet = circleAnimSet;
         Animator[] animatorArr = new Animator[6];
         animatorArr[0] = ObjectAnimator.ofFloat(buttonLayout, View.SCALE_X.getName(), layout_shrink_size);
@@ -359,7 +369,8 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
         });
     }
 
-    private void actionDown() {
+    public void onActionStart() {
+        invalidate();
         if (circleAnimSet.isStarted() || onCircleAnimStart || centerScalaAnimSet.isStarted()) {
             animing = true;
             return;
@@ -377,7 +388,8 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
         circleAnimSet.start();
     }
 
-    private void onActionUp() {
+    public void onActionUp() {
+        invalidate();
         onActionUp = true;
         if (onCenterScalaAnimRunning) {
             onCenterScalaAnimRunning = false;
@@ -389,7 +401,7 @@ public class StopButton extends RelativeLayout implements ValueAnimator.Animator
     }
 
     private void cancelAndReset() {
-        textTitle.setText("没等加载完");
+        textTitle.setText("停止");
         centerAnim.setFloatValues(curAngle, 0.0f);
         resetAnimSet.start();
     }

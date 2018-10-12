@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <com.time.cat.demo.StopButton
-        android:id="@+id/stopButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:orientation="horizontal">
 
-    </com.time.cat.demo.StopButton>
-</RelativeLayout>
+        <com.time.cat.demo.button.StopButton
+            android:id="@+id/stopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+        </com.time.cat.demo.button.StopButton>
+    </LinearLayout>
+
+    <com.time.cat.demo.lock.GestureLock
+        xmlns:GestureLock="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/gesture_lock"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        GestureLock:line_normal_color="@android:color/darker_gray"
+        GestureLock:line_width="2dp"/>
+</LinearLayout>
