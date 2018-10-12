@@ -16,38 +16,34 @@ import java.util.concurrent.TimeUnit;
  */
 public class DelayRunnableUtils {
     private Runnable runnable;
-    private final long aLong;
+    private final long delayTime;
     private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
     private ScheduledFuture<?> scheduledFuture;
-    private final Handler e = new Handler();
-    private boolean f;
+    private final Handler handler = new Handler();
+    private boolean isStop;
 
-    public void a(Runnable runnable) {
+    public DelayRunnableUtils(Runnable runnable, long delayTime) {
         this.runnable = runnable;
+        this.delayTime = delayTime;
     }
 
-    public DelayRunnableUtils(Runnable runnable, long j) {
-        this.runnable = runnable;
-        this.aLong = j;
-    }
-
-    public void a() {
-        b();
-        this.scheduledFuture = this.scheduledExecutorService.schedule(new Runnable() {
+    public void start() {
+        stop();
+        scheduledFuture = scheduledExecutorService.schedule(new Runnable() {
             @Override
             public void run() {
-                if (!f && !scheduledFuture.isCancelled()) {
-                    e.post(runnable);
+                if (!isStop && !scheduledFuture.isCancelled()) {
+                    handler.post(runnable);
                 }
             }
-        }, this.aLong, TimeUnit.MILLISECONDS);
-        this.f = false;
+        }, delayTime, TimeUnit.MILLISECONDS);
+        isStop = false;
     }
 
-    public void b() {
-        if (this.scheduledFuture != null) {
-            this.scheduledFuture.cancel(true);
+    public void stop() {
+        if (scheduledFuture != null) {
+            scheduledFuture.cancel(true);
         }
-        this.f = true;
+        isStop = true;
     }
 }

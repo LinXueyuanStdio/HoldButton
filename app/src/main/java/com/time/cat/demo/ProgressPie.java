@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -17,7 +18,7 @@ import android.view.View;
 public class ProgressPie extends View {
     private Paint paint;
     private RectF rectF;
-    private float c;
+    private float angle;
 
     public ProgressPie(Context context) {
         this(context, null);
@@ -31,31 +32,33 @@ public class ProgressPie extends View {
         super(context, attributeSet, i);
         this.paint = new Paint();
         this.rectF = new RectF();
-        this.c = 0.0f;
-        a(context);
+        this.angle = 0.0f;
+        init(context);
     }
 
-    public void setColor(int i) {
-        this.paint.setColor(i);
+    public void setColor(@ColorInt int color) {
+        this.paint.setColor(color);
         invalidate();
     }
 
-    public void setSweepAngle(float f) {
-        this.c = f;
+    public void setSweepAngle(float angle) {
+        this.angle = angle;
         invalidate();
     }
 
-    protected void onMeasure(int i, int i2) {
-        super.onMeasure(i, i2);
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         this.rectF.right = (float) getMeasuredWidth();
         this.rectF.bottom = (float) getMeasuredHeight();
     }
 
+    @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawArc(this.rectF, 270.0f, this.c, true, this.paint);
+        canvas.drawArc(this.rectF, 270.0f, this.angle, true, this.paint);
     }
 
-    private void a(Context context) {
+    private void init(Context context) {
         this.paint.setColor(context.getResources().getColor(R.color.run_stop));
         this.paint.setStyle(Paint.Style.FILL_AND_STROKE);
         this.paint.setAntiAlias(true);

@@ -3,7 +3,6 @@ package com.time.cat.demo;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
 /**
  * @author dlink
@@ -18,21 +17,30 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         StopButton stopButton = findViewById(R.id.stopButton);
-        stopButton.setOnEndListener(new StopButton.OnEndListener() {
+        stopButton.setOnActionListener(new StopButton.ActionListener() {
             @Override
-            public void onEnd() {
-                Toast.makeText(MainActivity.this, "动画结束", Toast.LENGTH_SHORT).show();
-            }
-        });
-        stopButton.setActionListener(new StopButton.ActionListener() {
-            @Override
-            public void onClick() {
-                Toast.makeText(MainActivity.this, "OnClick", Toast.LENGTH_SHORT).show();
+            public void onActionDown() {
+
             }
 
             @Override
-            public void afterClick() {
-                Toast.makeText(MainActivity.this, "afterClick", Toast.LENGTH_SHORT).show();
+            public void onActionUp() {
+
+            }
+
+            @Override
+            public void onEnd() {
+
+            }
+
+            @Override
+            public void onClick() {
+
+            }
+
+            @Override
+            public void onLongClick() {
+
             }
         });
     }
