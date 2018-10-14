@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.Gravity;
 
 import com.time.cat.demo.button.BurstLinkButton;
 
@@ -37,7 +38,7 @@ public abstract class GestureLockView extends BurstLinkButton {
 
     public GestureLockView(Context context, AttributeSet attrs, int defStyle){
         super(context, attrs, defStyle);
-
+        this.setGravity(Gravity.CENTER);
     }
 
     @Override
