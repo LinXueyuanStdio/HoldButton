@@ -268,6 +268,12 @@ public class GestureLock extends ViewGroup {
                     childHeightSize = MAX_BLOCK_SIZE;
                 }
 
+                if (childHeightSize > childWidthSize) {
+                    childHeightSize = childWidthSize;
+                } else {
+                    childWidthSize = childHeightSize;
+                }
+
                 int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize, childWidthMode);
                 int childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(childHeightSize, childHeightMode);
 
