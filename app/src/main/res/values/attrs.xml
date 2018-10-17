@@ -12,4 +12,12 @@
         <attr name="dot_color" format="color"/>
         <attr name="text_size" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="PatternIndicatorView">
+        <attr name="piv_color" format="color|reference" />
+        <attr name="piv_hitColor" format="color|reference" />
+        <attr name="piv_errorColor" format="color|reference" />
+        <attr name="piv_fillColor" format="color|reference" />
+        <attr name="piv_lineWidth" format="dimension|reference" />
+    </declare-styleable>
 </resources>

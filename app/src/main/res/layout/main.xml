@@ -18,6 +18,18 @@
         </com.time.cat.demo.button.BurstLinkButton>
     </LinearLayout>
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/dream"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
+    </HorizontalScrollView>
+
     <com.time.cat.demo.lock.GestureLock
         xmlns:GestureLock="http://schemas.android.com/apk/res-auto"
         android:id="@+id/gesture_lock"

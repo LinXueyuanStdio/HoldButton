@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="2">
+
+            <com.rey.material.widget.Button
+                android:id="@+id/add"
+                style="@style/LightRaiseWaveColorButtonRippleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:background="@drawable/shape_bg_button"
+                android:text="增加"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                app:rd_enable="true"
+                app:rd_style="@style/LightRaiseWaveColorButtonRippleStyle"/>
+
+            <com.rey.material.widget.Button
+                android:id="@+id/delete"
+                style="@style/LightRaiseWaveColorButtonRippleStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:background="@drawable/shape_bg_button"
+                android:text="删减"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                app:rd_enable="true"
+                app:rd_style="@style/LightRaiseWaveColorButtonRippleStyle"/>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="0"
+            android:src="@drawable/ic_burst_link_right"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.rey.material.widget.Button
+            android:id="@+id/edit"
+            style="@style/LightRaiseWaveColorButtonRippleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_bg_button"
+            android:text="编辑"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:rd_enable="true"
+            app:rd_style="@style/LightRaiseWaveColorButtonRippleStyle"/>
+
+        <com.rey.material.widget.Button
+            android:id="@+id/deleteAll"
+            style="@style/LightRaiseWaveColorButtonRippleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_bg_button"
+            android:text="删除"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:rd_enable="true"
+            app:rd_style="@style/LightRaiseWaveColorButtonRippleStyle"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="0"
+            android:src="@drawable/ic_burst_link_right"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"/>
+</LinearLayout>
