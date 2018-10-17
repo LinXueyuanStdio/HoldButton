@@ -5,4 +5,4 @@
 
 |效果图|效果图|效果图|效果图|
 |:---:|:---:|:---:|:---:|
-| ![效果图](./README/demo.gif) |![效果图](./README/demo1.gif)|![效果图](./README/demo2.gif)|![效果图](./README/demo3.gif)|
+| ![效果图](./README/demo3.gif) |![效果图](./README/demo1.gif)|![效果图](./README/demo2.gif)|![效果图](./README/demo.gif)|
