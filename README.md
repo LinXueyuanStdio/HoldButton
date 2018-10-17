@@ -7,4 +7,4 @@
 
 ## 尝试一下 demo
 
-[app-debug.apk](./README/app-debug.apk)
+[app-debug.apk](https://github.com/LinXueyuanStdio/HoldButton/blob/master/README/app-debug.apk?raw=true)
