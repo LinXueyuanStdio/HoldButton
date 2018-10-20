@@ -5,7 +5,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -33,7 +32,7 @@ public class BurstLinkButton extends RelativeLayout implements ValueAnimator.Ani
     public static final float DEFAULT_MIN_SCALE = 1.0f;
 
     private ActionListener onActionListener;
-    View barBackground;
+    protected View barBackground;
     View borderView;
     RelativeLayout buttonLayout;
     private AnimatorSet circleAnimSet;
@@ -51,7 +50,7 @@ public class BurstLinkButton extends RelativeLayout implements ValueAnimator.Ani
     float mTextSize;
     private DelayRunnableUtils delayRunnableUtils;
     ProgressPie progressPie;
-    TextView textTitle;
+    protected TextView textTitle;
 
     private Paint mPaint;
 
@@ -62,6 +61,21 @@ public class BurstLinkButton extends RelativeLayout implements ValueAnimator.Ani
     private int mShadowColor = Color.parseColor("#40000000");
 
     private int mDotColor = Color.WHITE;
+
+    private String startText = "无";
+    private String giveUpText = "放弃";
+    private String holdingText = "摁住";
+    private String endText = "无";
+
+    public interface Config {
+        String startText();
+
+        String giveUpText();
+
+        String holdingText();
+
+        String endText();
+    }
 
     public interface ActionListener {
 
@@ -81,6 +95,13 @@ public class BurstLinkButton extends RelativeLayout implements ValueAnimator.Ani
         onActionListener = actionListenerVar;
     }
 
+    public void setConfig(Config config) {
+        holdingText = config.holdingText();
+        startText = config.startText();
+        endText = config.endText();
+        giveUpText = config.giveUpText();
+    }
+
     public BurstLinkButton(Context context) {
         this(context, null);
     }
@@ -91,13 +112,6 @@ public class BurstLinkButton extends RelativeLayout implements ValueAnimator.Ani
 
     public BurstLinkButton(Context context, AttributeSet attributeSet, int defStyle) {
         super(context, attributeSet, defStyle);
-        TypedArray ta = context.obtainStyledAttributes(attributeSet, R.styleable.BurstLinkButton);
-        mBackgroundColor = ta.getColor(R.styleable.BurstLinkButton_background_color, Color.parseColor("#b4282d"));
-        mShadowColor = ta.getColor(R.styleable.BurstLinkButton_shadow_color, Color.parseColor("#40000000"));
-        mDotColor = ta.getColor(R.styleable.BurstLinkButton_dot_color, Color.WHITE);
-        mTextSize = ta.getDimension(R.styleable.BurstLinkButton_text_size, context.getResources().getDimension(R.dimen.button_text_size));
-        ta.recycle();
-
         initUtils();
         initView(context);
         initAnim(context);
@@ -273,7 +287,7 @@ public class BurstLinkButton extends RelativeLayout implements ValueAnimator.Ani
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                textTitle.setText("停止");
+                textTitle.setText(endText);
                 setSweepAngle(0.0f);
                 borderView.setVisibility(View.INVISIBLE);
                 if (onActionUp) {
@@ -356,7 +370,7 @@ public class BurstLinkButton extends RelativeLayout implements ValueAnimator.Ani
             onActionListener.onActionDown();
         }
         onActionUp = false;
-        textTitle.setText("长按");
+        textTitle.setText(holdingText);
         delayRunnableUtils.stop();
         borderView.setVisibility(View.VISIBLE);
         if (resetAnimSet != null && resetAnimSet.isStarted()) {
@@ -378,14 +392,14 @@ public class BurstLinkButton extends RelativeLayout implements ValueAnimator.Ani
     }
 
     public void giveUpAndReset() {
-        textTitle.setText("停止");
+        textTitle.setText(giveUpText);
         centerAnim.setFloatValues(curAngle, 0.0f);
         resetAnimSet.start();
     }
 
     private void reset() {
         onCenterScalaAnimRunning = false;
-        textTitle.setText("停止");
+        textTitle.setText(startText);
     }
 
     private void circleHolding() {
