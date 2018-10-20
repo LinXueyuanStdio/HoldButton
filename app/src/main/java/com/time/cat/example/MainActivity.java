@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -102,7 +101,7 @@ public class MainActivity extends Activity {
         gestureView.setOnGestureEventListener(new GestureLock.OnGestureEventListener() {
 
             @Override
-            public void onGestureEvent(boolean matched) {
+            public void onGestureEvent(boolean matched, int[] gesturesContainer) {
                 Toast.makeText(MainActivity.this, "Match:" + matched, Toast.LENGTH_SHORT).show();
                 gestureView.clear();
             }
@@ -126,13 +125,6 @@ public class MainActivity extends Activity {
 
         body = View.inflate(this, R.layout.item_burst_link_body, null);
         final PatternIndicatorView patternIndicatorView = body.findViewById(R.id.lock);
-        patternIndicatorView.setFillColor(getResources().getColor(android.R.color.holo_blue_light))
-                .setNormalColor(getResources().getColor(android.R.color.holo_green_light))
-                .setHitColor(getResources().getColor(R.color.colorPrimaryDark))
-                .setErrorColor(getResources().getColor(android.R.color.holo_red_light))
-                .setLineWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f,
-                        getResources().getDisplayMetrics()))
-                .buildWithDefaultStyle();
         final List<Integer> list = new ArrayList<>();
         list.add(0);
         list.add(1);
@@ -157,13 +149,6 @@ public class MainActivity extends Activity {
                 View body = View.inflate(MainActivity.this,
                         R.layout.item_burst_link_body, null);
                 final PatternIndicatorView patternIndicatorView = body.findViewById(R.id.lock);
-                patternIndicatorView.setFillColor(getResources().getColor(android.R.color.holo_blue_light))
-                        .setNormalColor(getResources().getColor(android.R.color.holo_green_light))
-                        .setHitColor(getResources().getColor(R.color.colorPrimaryDark))
-                        .setErrorColor(getResources().getColor(android.R.color.holo_red_light))
-                        .setLineWidth(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f,
-                                getResources().getDisplayMetrics()))
-                        .buildWithDefaultStyle();
                 final List<Integer> list = new ArrayList<>();
                 list.add(0);
                 list.add(1);

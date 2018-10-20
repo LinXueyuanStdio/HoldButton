@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="GestureLock">
-        <attr name="line_width" format="dimension"/>
-        <attr name="line_normal_color" format="color"/>
-        <attr name="line_error_color" format="color" />
+        <attr name="line_width"/>
+        <attr name="line_normal_color"/>
+        <attr name="line_error_color"/>
     </declare-styleable>
 
     <declare-styleable name="BurstLinkButton">
-        <attr name="background_color" format="color"/>
-        <attr name="shadow_color" format="color"/>
-        <attr name="dot_color" format="color"/>
-        <attr name="text_size" format="dimension"/>
+        <attr name="background_color"/>
+        <attr name="shadow_color"/>
+        <attr name="dot_color"/>
+        <attr name="text_size"/>
     </declare-styleable>
 
     <declare-styleable name="PatternIndicatorView">

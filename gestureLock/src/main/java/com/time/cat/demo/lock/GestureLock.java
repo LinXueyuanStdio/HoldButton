@@ -66,7 +66,7 @@ public class GestureLock extends ViewGroup {
     public interface OnGestureEventListener {
         void onBlockSelected(int position);
 
-        void onGestureEvent(boolean matched);
+        void onGestureEvent(boolean matched, int[] gesturesContainer);
 
         void onUnmatchedExceedBoundary();
     }
@@ -497,7 +497,7 @@ public class GestureLock extends ViewGroup {
 
 
                     if (onGestureEventListener != null) {
-                        onGestureEventListener.onGestureEvent(matched);
+                        onGestureEventListener.onGestureEvent(matched, gesturesContainer);
                         if (unmatchedCount >= unmatchedBoundary) {
                             onGestureEventListener.onUnmatchedExceedBoundary();
                             unmatchedCount = 0;
