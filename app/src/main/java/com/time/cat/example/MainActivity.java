@@ -1,4 +1,4 @@
-package com.time.cat.demo;
+package com.time.cat.example;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.time.cat.demo.R;
 import com.time.cat.demo.button.BurstLinkButton;
 import com.time.cat.demo.indicator.PatternIndicatorView;
 import com.time.cat.demo.lock.GestureLock;

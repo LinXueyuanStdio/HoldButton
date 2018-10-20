@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GestureLock">
+        <attr name="line_width" format="dimension"/>
+        <attr name="line_normal_color" format="color"/>
+        <attr name="line_error_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="BurstLinkButton">
+        <attr name="background_color" format="color"/>
+        <attr name="shadow_color" format="color"/>
+        <attr name="dot_color" format="color"/>
+        <attr name="text_size" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="PatternIndicatorView">
+        <attr name="piv_color" format="color|reference" />
+        <attr name="piv_hitColor" format="color|reference" />
+        <attr name="piv_errorColor" format="color|reference" />
+        <attr name="piv_fillColor" format="color|reference" />
+        <attr name="piv_lineWidth" format="dimension|reference" />
+    </declare-styleable>
+</resources>
